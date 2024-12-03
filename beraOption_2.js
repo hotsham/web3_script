@@ -6,7 +6,7 @@ import HoneyTokenJson from './abis_2/ERC20Honey.json' with { type: 'json' };
 import MintHoneyJson from './abis_2/MintHoney.json' with { type: 'json' };
 import AddLiquidtyJson from './abis_2/IAddLiquidtyModule.json' with { type: 'json' };
 import LiquidtyPoolJson from './abis_2/HoneyAndUsdcLiquidtyPool.json' with { type: 'json' };
-import RewardsJson from './abis_2/IRewardsModule.json' with { type: 'json' };
+import RewardsJson from './abis_2/HoneyAndUsdcRewards.json' with { type: 'json' };
 import IBankJson from './abis_2/IBankModule.json' with { type: 'json' };
 import IStakingJson from './abis_2/IStakingModule.json' with { type: 'json' };
 import BGTJson from './abis_2/ERC20Bgt.json' with { type: 'json' };
@@ -24,6 +24,7 @@ console.log = function (...args) {
 const msleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function swaprun() {
+  
     const csvPath = process.env.CSVPath;
     const rpcUrl = process.env.RPC;
     const WalletIdxList= process.env.WALLETIDXLIST.split(',');
@@ -37,7 +38,6 @@ async function swaprun() {
     const mnemonicRegex = /^[a-zA-Z]+( +[a-zA-Z]+)*$/;
     const path = "m/44'/60'/0'/0/0";
     const provider = ethers.getDefaultProvider(rpcUrl);
-
     for (let index = 0; index < arr.length - 1; index++) {
         try {
             const element = arr[index];
@@ -333,7 +333,7 @@ async function divideCoin() {
     const mnemonicRegex = /^[a-zA-Z]+( +[a-zA-Z]+)*$/;
     const path = "m/44'/60'/0'/0/0";
     const provider = ethers.getDefaultProvider(rpcUrl);
-    const mainWallet = new Wallet.fromMnemonic(process.env.MAINMNEMONIC).connect(provider);
+    const mainWallet = Wallet.fromMnemonic(process.env.MAINMNEMONIC).connect(provider);
     for (let index = 0; index < arr.length; index++) {
         try {
             const element = arr[index];
