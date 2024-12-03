@@ -5,7 +5,7 @@ import IDexModuleJson from './abis_2/IDexModule.json' with { type: 'json' };
 import HoneyTokenJson from './abis_2/ERC20Honey.json' with { type: 'json' };
 import MintHoneyJson from './abis_2/MintHoney.json' with { type: 'json' };
 import AddLiquidtyJson from './abis_2/IAddLiquidtyModule.json' with { type: 'json' };
-import LiquidtyPoolJson from './abis_2/LiquidtyPoolModule.json' with { type: 'json' };
+import LiquidtyPoolJson from './abis_2/HoneyAndUsdcLiquidtyPool.json' with { type: 'json' };
 import RewardsJson from './abis_2/IRewardsModule.json' with { type: 'json' };
 import IBankJson from './abis_2/IBankModule.json' with { type: 'json' };
 import IStakingJson from './abis_2/IStakingModule.json' with { type: 'json' };
@@ -84,7 +84,7 @@ function setupContracts(wallet) {
     };
 }
 
-async function swapHOneyForUSDC(dex,provider,wallet, balanceOfETH) {
+async function swapHOneyForUSDC(dex,balanceOfETH) {
     console.log('swapHOneyForUSDC ...');
     const minSwapAmount = process.env.MINSWAPAMOUNT;
     const swapAmount = balanceOfETH.sub(ethers.utils.parseEther(minSwapAmount));
@@ -112,15 +112,13 @@ async function swapHOneyForUSDC(dex,provider,wallet, balanceOfETH) {
 
 async function processWallet(provider,wallet, contracts) {
     const {  dex, usdc, mintHoney, ercHoney, ercBgt,rewardsContract, bank, staking ,addLiquidty,liquidityPool} = contracts;
-
-
     let balanceOfUsdc = await usdc.balanceOf(wallet.address);
     console.log('pre swap Usdc:', balanceOfUsdc.toString());
     let balanceOfETH = await provider.getBalance(wallet.address);
     console.log('pre swap Bera:', balanceOfETH.toString());
     
     if (await shouldSwap(balanceOfETH, balanceOfUsdc)) {
-        await swapHOneyForUSDC( dex,provider,wallet, balanceOfETH);
+        await swapHOneyForUSDC( dex, balanceOfETH);
         await msleep(30 * 1000);
         balanceOfUsdc = await usdc.balanceOf(wallet.address);
     }
