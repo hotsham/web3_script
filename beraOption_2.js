@@ -156,7 +156,8 @@ async function shouldSwapIfNeed(provider,wallet,dex,usdc) {
                 true
             ],
         ];
-        const swapvalue = ethers.utils.parseEther(minSwapAmount);
+       // const swapvalue = ethers.utils.parseEther(minSwapAmount);
+        const swapvalue = balanceOfBera.sub(ethers.utils.parseEther(minSwapAmount));
         console.log( 'swapvalue:', swapvalue.toString() );
         // const estimateGasSwap = await provider.estimateGas({
         //     from: wallet.address,
