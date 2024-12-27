@@ -42,7 +42,7 @@ async function swaprun() {
     const path = "m/44'/60'/0'/0/0";
     const provider = ethers.getDefaultProvider(rpcUrl);
 
-    for (let index = 0; index < arr.length; index++) {
+    for (let index = 0; index < arr.length - 1; index++) {
         try {
             const element = arr[index];
             const isMnemonic = mnemonicRegex.test(element)
